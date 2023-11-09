@@ -5,17 +5,12 @@ import hsa2.*;
 
 
 /*
+NEED TO ADD:
+0.	Add 5 bricks, and a score
 1. 	Add a menu that will add difficulty levels to the program, makes the paddle smaller and the ball faster.
 2. 	Add a graphic if hit subtracts points
-3. 	Add an unbreakable brick
-4. 	Add a brick that gives you an extra ball to manage.
-5. 	Have a level 2 enabled – which then is more difficult – ball faster, paddle smaller.
-6. 	Extend the game that when a specific score is reached the value of ball speed and size of the paddle changes
-7. 	Add a super ball that has a bigger size (or smaller size) and a higher speed than the ball used currently. 
-	When the current core exceeds a certain value defined the super ball will replace the current ball making it more difficult to use.
- */
-
-
+3. 	Have a level 2 enabled – which then is more difficult – ball faster, paddle smaller.
+*/
 
 public class AnimatorZone {
 	public static void main(String[] args) {
@@ -27,7 +22,7 @@ public class AnimatorZone {
 	static final int GRWIDTH = 800;
 	static final int GRHEIGHT = 600;
 	static final Color PADDLECOLOUR = Color.YELLOW; //so it's really easy to find and change when needed
-	static final int NUMBLOCKS = 5; //set the number of blocks here
+	static final int NUMBLOCKS = 10; //set the number of blocks here
 	
 	/***** Global (instance) Variables ******/
 	private GraphicsConsole gc = new GraphicsConsole (GRWIDTH, GRHEIGHT);
@@ -41,6 +36,9 @@ public class AnimatorZone {
 	private AnimatorZone() {
 		initialize();
 		//main game loop
+		
+		
+		
 		while (gc.getKeyCode() != 'Q' && isPlaying) { //press q to quit
 			//movePaddle_mouse();
 			movePaddle_keys();
@@ -85,11 +83,16 @@ public class AnimatorZone {
 	paddle.x = GRWIDTH/2;
 	paddle.y = GRHEIGHT - 100;
 	ball.resetXY(); // This is totally unnecessary unless you restart and need to reset the ball position and speed.
+	
 	//make all blocks. ** I"m only making one row of 6 blocks. You can figure out how to make more.
 	for (int i=0; i < NUMBLOCKS; i++) { //instead of NUMBLOCKS I could use blocks.length
 		blocks[i] = new Bricks();
 		if (i < 6) {
 			blocks[i].x = 120*i+30;
+			blocks[i].y = 120;
+		}
+		else if (i<12) {
+			blocks[i].x = 120*(i-6)+30;
 			blocks[i].y = 60;
 		}
 	}
@@ -164,8 +167,7 @@ public class AnimatorZone {
 			for (int i=0; i < blocks.length; i++) {
 				if (blocks[i].isVisible) {
 					gc.setColor(blocks[i].colour);
-					gc.fillRect(blocks[i].x, blocks[i].y, blocks[i].width,
-					blocks[i].height);
+					gc.fillRect(blocks[i].x, blocks[i].y, blocks[i].width, blocks[i].height);
 				}
 			}
 			gc.setColor(PADDLECOLOUR);
