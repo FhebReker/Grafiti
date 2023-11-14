@@ -26,7 +26,7 @@ public class Ball extends Rectangle{
 	}
 	void resetXY() {
 		x = (int)(Math.random() * (n1 - 150))+75;
-		y = (int)(Math.random() * (n2 - 150))+75;
+		y = (int)(Math.random() * (n2 - 50))+75;
 		xspeed = yspeed = 3;
 		width=height=diameter;
 	}
