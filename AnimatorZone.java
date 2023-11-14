@@ -6,7 +6,6 @@ import hsa2.*;
 
 /*
 NEED TO ADD:
-0.	Add 5 bricks, and a score
 1. 	Add a menu that will add difficulty levels to the program, makes the paddle smaller and the ball faster.
 2. 	Add a graphic if hit subtracts points
 3. 	Have a level 2 enabled – which then is more difficult – ball faster, paddle smaller.
@@ -18,7 +17,7 @@ public class AnimatorZone {
 	}
 	
 	/***** Constants *****/
-	static final int SLEEPTIME = 10;
+	static final int SLEEPTIME = 50;
 	static final int GRWIDTH = 800;
 	static final int GRHEIGHT = 600;
 	static final Color PADDLECOLOUR = Color.YELLOW; //so it's really easy to find and change when needed
@@ -26,10 +25,10 @@ public class AnimatorZone {
 	
 	/***** Global (instance) Variables ******/
 	private GraphicsConsole gc = new GraphicsConsole (GRWIDTH, GRHEIGHT);
-	private Ball ball = new Ball(GRWIDTH, 200);
+	private Ball ball = new Ball(GRWIDTH, 300);
 	private Rectangle paddle = new Rectangle(0,0,100,16); //set width and height here
 	private Bricks[] blocks = new Bricks[NUMBLOCKS]; //this just makes the array, it doesn't create the blocks!
-	private int lives;
+	private int lives, score;
 	private boolean isPlaying = true;
 	
 	/****** Constructor ********/
@@ -54,11 +53,11 @@ public class AnimatorZone {
 			}
 			if (win) isPlaying = false;
 		}
-		
+	
 		if (lives > 0)
-		gc.drawString("GAME OVER, You win!", 30, 30);
+		gc.drawString("GAME OVER, You win!", gc.getDrawWidth()/3, gc.getDrawHeight()/2);
 		else
-		gc.drawString("GAME OVER, You lost.", 30, 30);
+		gc.drawString("GAME OVER, You lost.", gc.getDrawWidth()/3, gc.getDrawHeight()/2);
 	}
 	
 	/****** Methods for game *******/
@@ -78,6 +77,7 @@ public class AnimatorZone {
 	
 	//set up variables
 	lives = 4;
+	score = 0;
 	isPlaying = true;
 	//set up objects
 	paddle.x = GRWIDTH/2;
@@ -92,7 +92,7 @@ public class AnimatorZone {
 			blocks[i].y = 120;
 		}
 		else if (i<12) {
-			blocks[i].x = 120*(i-6)+30;
+			blocks[i].x = 120*(i-6)+75;
 			blocks[i].y = 60;
 		}
 	}
@@ -110,6 +110,7 @@ public class AnimatorZone {
 		if ((ball.y + ball.diameter) > gc.getDrawHeight()) {
 			ball.yspeed *=-1;
 			lives--;
+			score -= 100;
 			ball.colour = new Color(Color.HSBtoRGB((float)Math.random(), 1.0f, 1.0f));
 		}
 		//right side of screen
@@ -137,6 +138,7 @@ public class AnimatorZone {
 				blocks[i].isVisible = false; //don't bother drawing it on the screen
 				blocks[i].y = -100; //move it off the screen
 				ball.yspeed *= -1;
+				score += 200;
 			}
 		}
 	}
@@ -172,6 +174,7 @@ public class AnimatorZone {
 			}
 			gc.setColor(PADDLECOLOUR);
 			gc.fillRoundRect(paddle.x, paddle.y, paddle.width, paddle.height, 10,10);
+			gc.drawString("Score: " + score, GRWIDTH / 8, 30);
 		}
 	}
 }
