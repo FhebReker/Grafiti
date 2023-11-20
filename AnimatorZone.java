@@ -17,11 +17,13 @@ public class AnimatorZone {
 	}
 	
 	/***** Constants *****/
-	static final int SLEEPTIME = 50;
+	static final int SLEEPTIME = 10000;
 	static final int GRWIDTH = 800;
 	static final int GRHEIGHT = 600;
 	static final Color PADDLECOLOUR = Color.YELLOW; //so it's really easy to find and change when needed
-	static final int NUMBLOCKS = 10; //set the number of blocks here
+	static int NUMBLOCKS = 10; //set the number of blocks here
+	private static int moveAmount = 7;
+
 	
 	/***** Global (instance) Variables ******/
 	private GraphicsConsole gc = new GraphicsConsole (GRWIDTH, GRHEIGHT);
@@ -39,8 +41,8 @@ public class AnimatorZone {
 		
 		
 		while (gc.getKeyCode() != 'Q' && isPlaying) { //press q to quit
-			//movePaddle_mouse();
-			movePaddle_keys();
+			movePaddle_mouse();
+			//movePaddle_keys();
 			moveBall();
 			drawGraphics();
 			gc.sleep(SLEEPTIME);
@@ -84,19 +86,56 @@ public class AnimatorZone {
 	paddle.y = GRHEIGHT - 100;
 	ball.resetXY(); // This is totally unnecessary unless you restart and need to reset the ball position and speed.
 	
+	
+	gc.setColor(Color.cyan);
+	gc.drawString("Welcome!", 100, 50);
+	gc.drawString("Would you like a challenge?", 100, 100);
+	gc.drawString("If you do, listen close.", 100, 150);
+	gc.drawString("If you want to play normally, do not press anything.", 100, 400);
+	gc.drawString("If you want a light challenge, hold the 1 key", 100, 450);
+	gc.drawString("If you want a gruelling challenge, hold the 2 key", 100, 500);
+	gc.sleep(3000);
+	char challengeLevel = gc.getKeyChar();
+	Challenger(challengeLevel);
+	gc.clear();
+	
 	//make all blocks. ** I"m only making one row of 6 blocks. You can figure out how to make more.
+	if(NUMBLOCKS != 10) {
+		blocks = new Bricks[NUMBLOCKS];
+	}
 	for (int i=0; i < NUMBLOCKS; i++) { //instead of NUMBLOCKS I could use blocks.length
 		blocks[i] = new Bricks();
-		if (i < 6) {
-			blocks[i].x = 120*i+30;
-			blocks[i].y = 120;
+		blocks[i].x = 120*i+30;
+		blocks[i].y = 60;
+		
+		if ((blocks[i].x + blocks[i].width) >= GRWIDTH) {
+			for (int j = blocks[i].x + blocks[i].width; j > 800; j -=)
+			blocks[i].x -= GRWIDTH;
+			blocks[i].y += 60;
+			System.out.println("Subtracted!");
 		}
-		else if (i<12) {
-			blocks[i].x = 120*(i-6)+75;
-			blocks[i].y = 60;
-		}
+		System.out.println((blocks[i].x + blocks[i].width));
+		System.out.println((blocks[i].y));
+		System.out.println();
 	}
 	gc.sleep(500); // allow a bit of time for the user to move the mouse to the correct position in the game screen
+	}
+	
+	public void Challenger(char difficulty) {
+		if (difficulty == '1') {
+			paddle.width -= 25;
+			ball.xspeed *= 2;
+			ball.yspeed *= 2;
+			moveAmount *= 1.5;
+			NUMBLOCKS *= 2;
+		}
+		else if (difficulty == '2') {
+			paddle.width -= 50;
+			ball.xspeed *= 2.5;
+			ball.yspeed *= 2.5;
+			moveAmount *= 3;
+			NUMBLOCKS *= 3;
+		}
 	}
 	
 	/**
@@ -147,7 +186,6 @@ public class AnimatorZone {
 		paddle.x = gc.getMouseX() - paddle.width/2;
 	}
 	private void movePaddle_keys(){
-		int moveAmount = 7;
 		//37 and 39 are the keyboard codes for the left and right arrow keys.
 		if (gc.getKeyCode() == 37) paddle.x -= moveAmount;
 		if (gc.getKeyCode() == 39) paddle.x += moveAmount;
