@@ -17,7 +17,7 @@ public class AnimatorZone {
 	}
 	
 	/***** Constants *****/
-	static final int SLEEPTIME = 10000;
+	static final int SLEEPTIME = 10;
 	static final int GRWIDTH = 800;
 	static final int GRHEIGHT = 600;
 	static final Color PADDLECOLOUR = Color.YELLOW; //so it's really easy to find and change when needed
@@ -32,6 +32,7 @@ public class AnimatorZone {
 	private Bricks[] blocks = new Bricks[NUMBLOCKS]; //this just makes the array, it doesn't create the blocks!
 	private int lives, score;
 	private boolean isPlaying = true;
+	private char challengeLevel = '0';
 	
 	/****** Constructor ********/
 	private AnimatorZone() {
@@ -95,7 +96,7 @@ public class AnimatorZone {
 	gc.drawString("If you want a light challenge, hold the 1 key", 100, 450);
 	gc.drawString("If you want a gruelling challenge, hold the 2 key", 100, 500);
 	gc.sleep(3000);
-	char challengeLevel = gc.getKeyChar();
+	challengeLevel = gc.getKeyChar();
 	Challenger(challengeLevel);
 	gc.clear();
 	
@@ -109,7 +110,7 @@ public class AnimatorZone {
 		blocks[i].y = 60;
 		
 		if ((blocks[i].x + blocks[i].width) >= GRWIDTH) {
-			for (int j = blocks[i].x + blocks[i].width; j > 800; j -=)
+			for (int j = blocks[i].x + blocks[i].width; j > 800; j --)
 			blocks[i].x -= GRWIDTH;
 			blocks[i].y += 60;
 			System.out.println("Subtracted!");
@@ -151,6 +152,13 @@ public class AnimatorZone {
 			lives--;
 			score -= 100;
 			ball.colour = new Color(Color.HSBtoRGB((float)Math.random(), 1.0f, 1.0f));
+			gc.drawString("HIT!", ball.x, gc.getDrawHeight() - 100);
+			if (challengeLevel == '1')
+			gc.sleep(SLEEPTIME + 25);
+			else if(challengeLevel == '2')
+				gc.sleep(SLEEPTIME + 50);
+			else
+				gc.sleep(SLEEPTIME + 25);
 		}
 		//right side of screen
 		if ((ball.x + ball.diameter) > gc.getDrawWidth()) {
