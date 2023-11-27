@@ -8,6 +8,17 @@ public class Interface{
 		startScreen();
 		mandala();
 	}
+	/*
+1. Declare two boolean variables goBack and goForward at the top of the class, alongside the other global variables. These variables will keep track of whether the user wants to go back or forward in the screensaver sequence.
+2. In the backAndForth() method, modify the conditions for setting the goBack and goForward variables. Currently, the method checks for key presses of the left arrow key ('a') or the right arrow key ('d'). You can modify it to check for other keys as well, according to your preference. For example, you can add checks for the 'q' key to exit the screensaver.
+3. In the main() method, before calling the mandala() method, add a loop that continuously checks the values of goBack and goForward. Use an infinite loop with a while (true) statement. Inside the loop, check the values of goBack and goForward using if statements.
+4. If goBack is true, decrement a variable screensaverIndex which keeps track of the current screensaver. You can use an int variable and initialize it to 0. This variable will be used to determine which screensaver to display.
+5. If goForward is true, increment the screensaverIndex.
+6. After modifying the screensaverIndex, use a switch statement to determine which screensaver to display based on the value of screensaverIndex. For example, if screensaverIndex is 0, call the mandala() method. If it's 1, call a different method for the next screensaver, and so on.
+7. After calling the appropriate screensaver method, reset the values of goBack and goForward to false.
+	 * */
+	
+	
 	/***** Constants *****/
 	static final int SLEEPTIME = 100;
 	static final int WindowWidth = 1200;
