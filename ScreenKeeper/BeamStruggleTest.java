@@ -59,6 +59,31 @@ public class BeamStruggleTest extends JFrame {
                             beamsMeeting = true;
                         }
                     }
+                    
+                    /*else {
+                    	int leftOrRight = (int)(Math.random()*2) + 1;
+                    	System.out.println(leftOrRight);
+                    	if(leftOrRight == 1) {
+                    		beam1.width += 32;
+                    		beam2.width -= 32;
+                    		beam2.x -= 32;
+                    		
+                            beam1.height+=2;
+                            beam2.height-=2;
+                            beam1.y-=1;
+                            beam2.y+=1;
+                    	}
+                    	if(leftOrRight == 2) {
+                    		beam1.width -= 32;
+                    		beam2.width += 32;
+                    		beam2.x += 32;
+                    		
+                            beam1.height-=2;
+                            beam2.height+=2;
+                            beam1.y+=1;
+                            beam2.y-=1;                    		
+                    	}
+                    }*/
 
                     repaint(); // Update the animation
                 }
