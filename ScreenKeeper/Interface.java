@@ -126,12 +126,18 @@ public class Interface{
 	}
 	
 	public static void beamStruggle() {
-		int character1X = 100, character2X = WindowWidth - 200;
-		Rectangle character1 = new Rectangle(character1X, WindowHeight/2-100, 100,100), 
-				character2  = new Rectangle(character2X, WindowHeight/2-100, 100,100), 
-				beam1 = new Rectangle(character1X+100, WindowHeight/2-60, 50,20), 
-				beam2 = new Rectangle(character2X+-50, WindowHeight/2-60, 50,20);
-		boolean notTouched = true;
+		int cannon1X = 50; // X position of character 1    
+	    int[] cannon1XBase = {cannon1X, cannon1X+50, cannon1X+100};
+	    int[] cannon1YBase = {425, 350, 425};
+	    Polygon cannon1 = new Polygon(cannon1XBase, cannon1YBase, 3); 
+	    Rectangle beam1 = new Rectangle(cannon1X + 100, 340, 50, 20); // Beam 1 rectangle	
+	    
+	    int cannon2X = 650; // X position of character 2
+	    int[] cannon2XBase = {cannon2X, cannon2X+50, cannon2X+100};
+	    int[] cannon2YBase = {425, 350, 425};
+	    Polygon cannon2 = new Polygon(cannon2XBase, cannon2YBase, 3); 
+	    Rectangle beam2 = new Rectangle(cannon2X - 50, 340, 50, 20); // Beam 2 rectangle
+
 	}
 	
 	public static void main (String[] args) {
